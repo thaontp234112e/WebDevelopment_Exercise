@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <title>
+            Exercise 49-Phuong Thao
+        </title>
+        <style type="text/css">
+        body {
+            background-color: #ccffff; /* nền xanh nhạt */
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        h1 {
+            color: red;
+            font-size: 20px;
+        }
+        form {
+            border: 1px solid blue;
+            padding: 10px;
+            width: 500px;
+            background-color: #e0ffff;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        input[type="text"] {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 3px;
+        }
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+        button img {
+            vertical-align: middle;
+        }
+        strong {
+            color: #333;
+        }
+    </style>
+    </head>
+    <body>
+        <h1 color="red">Online Classifieds Search Form</h1>
+        <hr/>
+        <form>
+            <p>
+                <strong>1) Search for a classified in the following sections:</strong>
+            </p>
+            <p>
+                <input type="radio" name="t1" id="t1"/><label for="t1">Employment</label>
+                <input type="radio" name="t1" id="t2"/><label for="t2">Personal</label>
+                <br/>
+                <input type="radio" name="t1" id="t3"/><label for="t3">For Sale</label>
+                <input type="radio" name="t1" id="t4"/><label for="t4">Miscelanecus</label>
+                <br/>
+                <input type="radio" name="t1" id="t5"/><label for="t5">Housing</label>
+                <input type="radio" name="t1" id="t6"/><label for="t6">All of the above</label>
+            </p>
+            <p>
+                <strong>2) Search the following publications:</strong>
+            </p>
+            <p>
+                 <input type="checkbox" name="b1" id="b1"/>
+                <label for="b1">Midwest times</label>
+                <input type="checkbox" name="b2" id="b2"/>
+                <label for="b2">Modern News</label>
+                <input type="checkbox" name="b3" id="b3"/>
+                <label for="b3">Employment Today</label>
+                <br/>
+                 <input type="checkbox" name="b4" id="b4"/>
+                <label for="b4">Great Lakes Classifieds</label>
+                <input type="checkbox" name="b5" id="b5"/>
+                <label for="b5">Middleton Daily</label>
+                <input type="checkbox" name="b6" id="b6"/>
+                <label for="b6">Cashtown Daily News</label>
+            </p>
+            <p>
+                <strong><label for="fullname">From to</label> </strong>
+                <input type="text" id="fullname" name="fullname"/>
+                <strong><label for="to">to</label></strong>
+                <input type="text" id="to" name="to"/>
+            </p>
+            <p>
+                <strong>Enter a few keywords to describe the classified</strong>
+            </p>
+            <p>
+                <input type="text" name="keyword" id="keyword"/>
+            </p>
+            <p>
+                <strong>5) Click one of the options below:</strong>
+            </p>
+            <p>
+                <button type="submit" name="submit" id="submit"><img src="../images/Search.gif"/></button>
+                <button type="normal" name="normal" id="normal"><img src="../images/Help.gif"/></button>
+                <button type="reset" name="reset" id="reset"><img src="../images/Cancel.gif"></button>
+            </p>
+
+        </form>
+    </body>
+</html>
