@@ -1,0 +1,126 @@
+<html>
+    <head>
+        <title>
+            Exercise48-Phuong Thao
+        </title>
+        <style type="text/css">
+            *{
+                background-color: rgb(168, 168, 251);
+                font-family: Arial, Helvetica, sans-serif;
+            }
+             input[type="text"], select, textarea {
+            width: 250px;
+            padding: 5px;
+            margin: 5px 10px;
+            border: 1px solid #666;
+            border-radius: 4px;
+            background-color: aliceblue;
+                
+            }
+            select {
+            width: 260px; /* rộng hơn một chút để fit option */
+            }
+
+            /* Style cho button */
+            button {
+            background-color: #0066cc;
+            color: white;
+            padding: 8px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            }
+             label {
+            display: inline-block;
+            width: 200px;
+            margin-right: 5px; 
+            font-weight: bold;
+            }
+
+            
+        </style>
+    </head>
+    <body>
+        <p align="center">
+            <img src="../images/Jackson.gif"/>
+        </p>
+        <h1 align="center">
+            Registration Form
+        </h1>
+        <p align="center">Register your Jackson Electronics product here</p>
+        <form>
+            <p>
+             <label for="firstname">First name:</label>
+             <input type="text" name="firstname" id="firstname"/>
+             <label for="lastname">Last name:</label>
+             <input type="text" name="lastname" id="lastname"/>
+             </p>
+             <p>
+                <label for="address1">Address #1:</label>
+             <input type="text" name="address1" id="address1"/>
+             </p>
+             <p>
+                <label for="address2">Address #2:</label>
+             <input type="text" name="address2" id="address2"/>
+             </p>
+              <p>
+             <label for="city">City:</label>
+             <input type="text" name="city" id="city"/>
+             <label for="state">State:</label>
+             <input type="text" name="state" id="state"/>
+             <label for="zip">Zip:</label>
+             <input type="text" name="zip" id="zip"/>
+             </p>
+             <p>
+                <label for="country">Country:</label>
+             <input type="text" name="country" id="country"/>
+             </p>
+             <hr/>
+             <p>
+                <label for="product">Product:</label>
+                <select name="product" id="product">
+                <option value="1">ScanMaster</option>
+                <option value="2">Da Nang</option>
+                <option value="3">TP.HCM</option>
+                </select>
+             </p>
+            <p>
+                <label for="date_purchased">Date Purchased:</label>
+                <input type="text" name="date_purchased" id="date_purchased"/>
+            </p>
+            <p>
+                <label for="serial">Serial #:</label>
+                <input type="text" name="serial" id="serial"/>
+            </p>
+            <p>
+                 <label>Used for:</label>
+                <input type="radio" name="t1" id="t1"/><label for="t1">Home</label>
+                <input type="radio" name="t1" id="t2"/><label for="t2">Educational Institution</label><br/>
+                <label></label>
+                <input type="radio" name="t1" id="t3"/><label for="t3">Business</label>
+                <input type="radio" name="t1" id="t4"/><label for="t4">Other</label><br/>
+                <label></label>
+                <input type="radio" name="t1" id="t5"/><label for="t5">Government</label>
+            </p>
+            <p>
+                <label>System:</label>
+                <input type="checkbox" name="b1" id="b1"/><label for="b1">Windows</label>
+                <input type="checkbox" name="b2" id="b2"/><label for="b2">UNIX</label><br/>
+                <label></label>
+                <input type="checkbox" name="b3" id="b3"/><label for="b3">Macintosh</label>
+                <input type="checkbox" name="b4" id="b4"/><label for="b4">Other</label>
+            </p>
+            <hr/>
+            <p>
+                
+                <label for="comments">Comments:</label>
+                <textarea type="text" name="comments" id="comments"></textarea>
+            </p>
+            <p align="center">
+                <button type="submit" name="submit" id="submit">Click to register</button>
+                <button type="reset" name="reset" id="reset">Click to cancel</button>
+            </p>
+        </form>
+    </body>
+</html>
