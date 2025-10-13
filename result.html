@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title>Result - Phuong Thao</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 60%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Result Summary</h2>
+    <table>
+        <tr>
+            <th>Part Number</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Item Total ($)</th>
+        </tr>
+        <tr>
+            <td>C112</td>
+            <td>Mouse</td>
+            <td id="qty1"></td>
+            <td id="item_table1"></td>
+        </tr>
+        <tr>
+            <td>B124</td>
+            <td>Keyboard US</td>
+            <td id="qty2"></td>
+            <td id="item_table2"></td>
+        </tr>
+        <tr>
+            <td>U125</td>
+            <td>USB KingMax</td>
+            <td id="qty3"></td>
+            <td id="item_table3"></td>
+        </tr>
+        <tr>
+            <td colspan="4" class="total">Total: <span id="total"></span>$</td>
+        </tr>
+    </table>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+
+        document.getElementById("qty1").innerText = params.get("qty1");
+        document.getElementById("qty2").innerText = params.get("qty2");
+        document.getElementById("qty3").innerText = params.get("qty3");
+
+        document.getElementById("item_table1").innerText = params.get("item_table1");
+        document.getElementById("item_table2").innerText = params.get("item_table2");
+        document.getElementById("item_table3").innerText = params.get("item_table3");
+
+        document.getElementById("total").innerText = params.get("total");
+    </script>
+</body>
+</html>

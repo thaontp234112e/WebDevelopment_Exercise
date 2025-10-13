@@ -1,0 +1,129 @@
+<html>
+<head>
+    <title>Exercise 53 - Phuong Thao</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 30px auto;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="text"] {
+            width: 80px;
+            text-align: right;
+        }
+        #total {
+            background-color: #ffffcc;
+            font-weight: bold;
+        }
+        button {
+            background-color: orange;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: darkorange;
+        }
+    </style>
+</head>
+
+<body>
+    <form name="my_form" id="my_form" method="get" action="result.html">
+        <table>
+            <tr>
+                <th>Part Number</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Item table</th>
+            </tr>
+
+            <tr>
+                <td>C112</td>
+                <td>Mouse</td>
+                <td><span id="price1">19.95</span>$</td>
+                <td><input type="text" name="qty1" id="qty1" /></td>
+                <td><input type="text" name="item_table1" id="item_table1" readonly /></td>
+            </tr>
+
+            <tr>
+                <td>B124</td>
+                <td>Keyboard US</td>
+                <td><span id="price2">29.95</span>$</td>
+                <td><input type="text" name="qty2" id="qty2" /></td>
+                <td><input type="text" name="item_table2" id="item_table2" readonly /></td>
+            </tr>
+
+            <tr>
+                <td>U125</td>
+                <td>USB KingMax</td>
+                <td><span id="price3">39.95</span>$</td>
+                <td><input type="text" name="qty3" id="qty3" /></td>
+                <td><input type="text" name="item_table3" id="item_table3" readonly /></td>
+            </tr>
+
+            <tr>
+                <td colspan="5" align="right">
+                    Total:
+                    <input type="text" name="total" id="total" readonly />
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5" align="right">
+                    <button type="button" onclick="handleSum()">Sum</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        function handleSum() {
+            // Tính tổng trước
+            calculateTotal();
+
+            // Sau khi tính xong, gửi form
+            document.getElementById("my_form").submit();
+        }
+
+        function calculateTotal() {
+            // Lấy giá
+            let p1 = parseFloat(document.getElementById("price1").innerText);
+            let p2 = parseFloat(document.getElementById("price2").innerText);
+            let p3 = parseFloat(document.getElementById("price3").innerText);
+
+            // Lấy số lượng
+            let q1 = parseFloat(document.getElementById("qty1").value) || 0;
+            let q2 = parseFloat(document.getElementById("qty2").value) || 0;
+            let q3 = parseFloat(document.getElementById("qty3").value) || 0;
+
+            // Tính từng dòng
+            let i1 = p1 * q1;
+            let i2 = p2 * q2;
+            let i3 = p3 * q3;
+
+            // Gán kết quả vào ô input
+            document.getElementById("item_table1").value = i1.toFixed(2);
+            document.getElementById("item_table2").value = i2.toFixed(2);
+            document.getElementById("item_table3").value = i3.toFixed(2);
+
+            // Tổng cộng
+            let total = i1 + i2 + i3;
+            document.getElementById("total").value = total.toFixed(2);
+        }
+    </script>
+</body>
+</html>
