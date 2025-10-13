@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 52 - Phuong Thao</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            border: 1px solid #ccc;
+            padding: 15px;
+            width: 500px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            background-color: #a03b52;
+            color: white;
+            padding: 8px 18px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8c3348;
+        }
+
+        .right {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contact the editorial office</h1>
+
+    <!-- ✅ THÊM method GET và action -->
+    <form name="my_form" method="get" action="process_contact.html">
+        <table>
+            <tr>
+                <td colspan="2">Full name</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="text" name="full_name" id="full_name" required>
+                </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>Send to</td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="email" name="email" id="email" required>
+                </td>
+                <td>
+                    <select name="department" id="department">
+                        <option value="Editorial board">Editorial board</option>
+                        <option value="News Department">News Department</option>
+                        <option value="Board of Perspectives">Board of Perspectives</option>
+                        <option value="World Board">World Board</option>
+                        <option value="Business Department">Business Department</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Title</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="text" name="title" id="title" required>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Content</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea name="content" id="content" rows="6" cols="40" required></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="right">
+                    <button type="submit">Send</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
