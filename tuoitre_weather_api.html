@@ -1,0 +1,382 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thời tiết Việt Nam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1em;
+        }
+
+        .select-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .weather-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .weather-card.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .city-name {
+            text-align: center;
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .weather-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .temperature {
+            font-size: 4em;
+            font-weight: bold;
+        }
+
+        .weather-icon {
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .detail-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .detail-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #333;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .description {
+            text-align: center;
+            font-size: 1.2em;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .temperature {
+                font-size: 3em;
+            }
+
+            .weather-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script>
+        const values = ['2347719', '20070078', '20070086', '2347731', '2347730', '20070081', '20070087', '20070084', '20070088', '2347703', '2347704', '20070082', '2347732', '28301718', '20070085', '1252375', '2347720', '28301719', '2347721', '2347722', '2347733', '2347727', '2347728', '2347734', '2347741', '2347736', '2347737', '20070079', '20070080', '2347707', '28301720', '2347738', '2347723', '20070076', '2347708', '2347710', '2347740', '2347709', '2347718', '20070089', '2347742', '2347743', '2347744', '20070091', '2347745', '2347746', '2347711', '20070077', '2347712', '2347747', '2347748', '2347713', '2347715', '2347716', '20070083', '2347749', '2347717', '2347750', '2347751', '2347714', '2347752', '20070090', '2347729', '2347753'];
+        const names = ['An Giang', 'Bình Dương', 'Bình Phước', 'Bình Thuận', 'Bình Định', 'Bạc Liêu', 'Bắc Giang', 'Bắc Kạn', 'Bắc Ninh', 'Bến Tre', 'Cao Bằng', 'Cà Mau', 'Cần Thơ', 'Điện Biên', 'Đà Nẵng', 'Đà Lạt', 'Đắk Lắk', 'Đắk Nông', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Nội', 'TP. Hồ Chí Minh', 'Hà Giang', 'Hà Nam', 'Hà Tĩnh', 'Hòa Bình', 'Hưng Yên', 'Hải Dương', 'Hải Phòng', 'Hậu Giang', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Long An', 'Lào Cai', 'Lâm Đồng', 'Lạng Sơn', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Thanh Hóa', 'Thái Bình', 'Thái Nguyên', 'Thừa Thiên Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang', 'Tây Ninh', 'Vĩnh Long', 'Vĩnh Phúc', 'Vũng Tàu', 'Yên Bái'];
+
+        function load_city() {
+            const select = document.getElementById("city");
+            for (let i = 0; i < values.length; i++) {
+                const opt = document.createElement("option");
+                opt.value = values[i];
+                opt.text = names[i];
+                opt.dataset.name = names[i];
+                select.appendChild(opt);
+            }
+        }
+
+        function getWeatherIcon(description) {
+            const desc = description.toLowerCase();
+            
+            if (desc.includes('mưa dông') || desc.includes('giông')) return '11d';
+            if (desc.includes('mưa rào') || desc.includes('mưa')) return '10d';
+            if (desc.includes('có mây') || desc.includes('nhiều mây')) return '03d';
+            if (desc.includes('quang đãng') || desc.includes('nắng')) return '01d';
+            if (desc.includes('sương mù')) return '50d';
+            
+            return '02d';
+        }
+
+        async function show_weather(value) {
+            const weatherCard = document.getElementById('weatherCard');
+            const select = document.getElementById('city');
+            const cityName = select.options[select.selectedIndex].dataset.name;
+            
+            if (!value) {
+                weatherCard.classList.remove('show');
+                return;
+            }
+
+            weatherCard.innerHTML = '<div class="loading"><div class="loading-spinner"></div>Đang tải dữ liệu...</div>';
+            weatherCard.classList.add('show');
+
+            // Thử nhiều CORS proxy
+            const proxies = [
+                `https://api.allorigins.win/raw?url=`,
+                `https://corsproxy.io/?`,
+                `https://api.codetabs.com/v1/proxy?quest=`
+            ];
+
+            const targetUrl = `https://utils3.cnnd.vn/ajax/weatherinfo/${value}.htm`;
+
+            for (let proxy of proxies) {
+                try {
+                    const api_url = proxy + encodeURIComponent(targetUrl);
+                    const response = await fetch(api_url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) continue;
+
+                    const data = await response.json();
+                    
+                    // Debug: Log dữ liệu API trả về
+                    console.log('API Response:', data);
+
+                    if (data && data.data) {
+                        const weather = data.data;
+                        console.log('Weather data:', weather);
+                        console.log('Weather icon from API:', weather.icon);
+                        
+                        const temp = Math.round(weather.temp);
+                        const tempMin = Math.round(weather.temp_min);
+                        const tempMax = Math.round(weather.temp_max);
+                        const humidity = weather.humidity;
+                        const description = weather.description || 'Không có thông tin';
+                        const icon = weather.icon || getWeatherIcon(description);
+                        
+                        console.log('Final icon:', icon);
+
+                        display_weather(cityName, temp, tempMin, tempMax, humidity, description, icon);
+                        return;
+                    }
+                } catch (error) {
+                    console.log(`Proxy ${proxy} failed:`, error);
+                    continue;
+                }
+            }
+
+            // Nếu tất cả proxy đều fail, hiển thị dữ liệu demo
+            weatherCard.innerHTML = `
+                <div class="error" style="background: #fff3cd; color: #856404; border: 2px solid #ffc107;">
+                    ⚠️ <strong>Không thể kết nối API thời tiết thực</strong><br><br>
+                    Đang hiển thị dữ liệu mẫu cho <strong>${cityName}</strong>:
+                </div>
+            `;
+
+            setTimeout(() => {
+                const demoTemp = 25 + Math.floor(Math.random() * 10);
+                const demoTempMin = demoTemp - 3;
+                const demoTempMax = demoTemp + 5;
+                const demoHumidity = 60 + Math.floor(Math.random() * 30);
+                const descriptions = ['Nhiều mây', 'Quang đãng', 'Có mây', 'Mưa rào', 'Nắng'];
+                const demoDesc = descriptions[Math.floor(Math.random() * descriptions.length)];
+                const demoIcon = getWeatherIcon(demoDesc);
+
+                display_weather(cityName, demoTemp, demoTempMin, demoTempMax, demoHumidity, demoDesc + ' (Demo)', demoIcon);
+            }, 500);
+        }
+
+        function display_weather(city, temp, tempMin, tempMax, humidity, description, icon) {
+            const weatherCard = document.getElementById('weatherCard');
+            
+            // Đảm bảo icon URL đúng format
+            const iconUrl = icon.includes('http') 
+                ? icon 
+                : `https://openweathermap.org/img/wn/${icon}@2x.png`;
+            
+            console.log('Displaying icon URL:', iconUrl);
+            
+            weatherCard.innerHTML = `
+                <div class="city-name">📍 ${city}</div>
+                <div class="weather-main">
+                    <div class="temperature">${temp}°C</div>
+                    <img class="weather-icon" 
+                         src="${iconUrl}" 
+                         alt="${description}"
+                         onerror="this.src='https://openweathermap.org/img/wn/01d@2x.png'; console.error('Icon load failed');">
+                </div>
+                <div class="description">${description}</div>
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <div class="detail-label">🌡️ Nhiệt độ thấp nhất</div>
+                        <div class="detail-value">${tempMin}°C</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">🌡️ Nhiệt độ cao nhất</div>
+                        <div class="detail-value">${tempMax}°C</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">💧 Độ ẩm</div>
+                        <div class="detail-value">${humidity}%</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">🌤️ Thời tiết</div>
+                        <div class="detail-value" style="font-size: 1em;">${description}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.onload = load_city;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>🌦️ Thời tiết Việt Nam</h2>
+            <p class="subtitle">Tra cứu thời tiết các tỉnh/thành phố</p>
+        </div>
+
+        <div class="select-box">
+            <label for="city">Chọn tỉnh/thành phố:</label>
+            <select id="city" onchange="show_weather(this.value)">
+                <option value="">-- Chọn tỉnh/thành --</option>
+            </select>
+        </div>
+
+        <div id="weatherCard" class="weather-card"></div>
+    </div>
+</body>
+</html>
