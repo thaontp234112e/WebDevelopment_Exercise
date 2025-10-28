@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VnExpress - Tin tức Giáo dục</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .update-time {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .view-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .news-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .read-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .read-more:hover {
+            color: #764ba2;
+        }
+
+        .list-view .news-card {
+            display: flex;
+        }
+
+        .list-view .news-card img {
+            width: 300px;
+            height: 200px;
+        }
+
+        .list-view .news-content {
+            flex: 1;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: 15px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .list-view .news-card {
+                flex-direction: column;
+            }
+
+            .list-view .news-card img {
+                width: 100%;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 VnExpress Giáo dục</h1>
+            <p class="subtitle">Cập nhật tin tức giáo dục mới nhất</p>
+            <div class="update-time" id="updateTime"></div>
+        </header>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm tin tức...">
+            </div>
+            <div class="view-toggle">
+                <button class="view-btn active" onclick="switchView('grid')">📱 Lưới</button>
+                <button class="view-btn" onclick="switchView('list')">📋 Danh sách</button>
+            </div>
+        </div>
+
+        <div id="newsContainer" class="news-grid"></div>
+    </div>
+
+    <script>
+        const newsData = [
+            {
+                title: "Từ làng trẻ mồ côi tới đại học hàng đầu thế giới",
+                description: "Mất cha mẹ khi chưa tròn một tháng tuổi, từng vất vả mưu sinh, Lê Hoàng Phong đã trải qua một hành trình \"nhiệm màu\", giành học bổng nhiều ngôi trường danh tiếng thế giới.",
+                date: "28/10/2025 06:47",
+                link: "https://vnexpress.net/tu-lang-tre-mo-coi-toi-dai-hoc-hang-dau-the-gioi-4956547.html",
+                image: "https://i1-vnexpress.vnecdn.net/2025/10/28/aacb1125-f189-48ad-9513-2ef5fc-4609-5761-1761608693.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=6eH5e8Ik9e5ygCs-SGl6dw"
+            },
+            {
+                title: "Hàng trăm nghìn học sinh miền Trung có thể nghỉ học dài ngày vì mưa lũ",
+                description: "Hàng trăm nghìn học sinh ở TP Huế, Đà Nẵng, Quảng Trị, Quảng Ngãi nghỉ học tiếp ngày mai, và có thể thêm nhiều ngày vì lũ \"vượt mức lịch sử\".",
+                date: "27/10/2025 19:53",
+                link: "https://vnexpress.net/hang-tram-nghin-hoc-sinh-mien-trung-co-the-nghi-hoc-dai-ngay-vi-mua-lu-4956466.html",
+                image: "https://i1-vnexpress.vnecdn.net/2025/10/27/hue3-1761562490-2002-176156252-3484-6597-1761566657.png?w=1200&h=0&q=100&dpr=1&fit=crop&s=3MYv7JOi65-Y5rbIMBv7tw"
+            },
+            {
+                title: "Harvard cắt mạnh chỉ tiêu tiến sĩ",
+                description: "Đại học Harvard cắt chỉ tiêu tuyển sinh tiến sĩ trong hai năm tới, lên tới hơn 70% ở nhiều ngành, được cho là do bất ổn tài chính.",
+                date: "27/10/2025 11:32",
+                link: "https://vnexpress.net/harvard-cat-manh-chi-tieu-tien-si-4956257.html",
+                image: "https://i1-vnexpress.vnecdn.net/2025/10/27/475418706-1031730315660362-719-1688-8833-1761539369.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=uMASBSq5XAAcgo4TxIFOfA"
+            },
+            {
+                title: "Chàng trai từng trượt đại học đỗ vào cơ quan chính phủ Mỹ",
+                description: "Trượt đại học là cú sốc với Nhân Đức, nhưng cũng trở thành động lực để anh nỗ lực giành học bổng toàn phần ở châu Âu và Mỹ, trúng tuyển Bộ Nông nghiệp Mỹ với mức lương 93.000 USD mỗi năm.",
+                date: "27/10/2025 07:14",
+                link: "https://vnexpress.net/chang-trai-tung-truot-dai-hoc-do-vao-co-quan-chinh-phu-my-4955811.html",
+                image: "https://i1-vnexpress.vnecdn.net/2025/10/25/image-2-png-1761398785-1761398-5640-7949-1761399947.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=1PZ6870QTl2wc01jI3b9dg"
+            },
+            {
+                title: "Bảo Khánh vô địch Olympia 2025",
+                description: "Bảo Khánh có phần thi \"Về đích\" hoàn hảo, giành phần thưởng 50.000 USD và mang về ngôi vô địch thứ hai cho chuyên Hà Nội - Amsterdam ở Đường lên đỉnh Olympia.",
+                date: "26/10/2025 07:35",
+                link: "https://vnexpress.net/truc-tiep-chung-ket-duong-len-dinh-olympia-2025-4955848-tong-thuat.html",
+                image: "https://i1-vnexpress.vnecdn.net/2025/10/26/z7156483229690610f18d5de166bb7-6300-5350-1761451352.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=KAXOoeTepofCcPJwrtp1xg"
+            },
+            {
+                title: "Du học sinh đến Canada sụt giảm kỷ lục",
+                description: "Số du học sinh đến Canada trong 8 tháng năm nay giảm 60%, kỷ lục kể từ sau đại dịch Covid-19, trong bối cảnh nước này siết nhập cư.",
+                date: "26/10/2025 13:38",
+                link: "https://vnexpress.net/du-hoc-sinh-den-canada-sut-giam-ky-luc-4955846.html",
+                image: "https://i1-vnexpress.vnecdn.net/2025/10/26/509607990-1155825079907617-663-5257-4754-1761460534.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=MVpHknnAmEgK2XE26QoWhg"
+            },
+            {
+                title: "Nhà giàu tìm gia sư cho con 1 tuổi",
+                description: "Một gia đình giàu có trả lương 180.000 bảng một năm (khoảng 6 tỷ đồng) để tìm gia sư cho con trai 1 tuổi, ứng viên phải \"xuất thân từ tầng lớp phù hợp\", tốt nghiệp những trường danh tiếng nhất.",
+                date: "24/10/2025 16:14",
+                link: "https://vnexpress.net/nha-giau-tim-gia-su-cho-con-1-tuoi-4955335.html",
+                image: "https://i1-vnexpress.vnecdn.net/2025/10/24/meet-the-headmaster-1-1-2000x1-6204-3607-1761297335.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=1pyy2s1Aubig4V9nq__VPw"
+            },
+            {
+                title: "Hoang mang khi chương trình bác sĩ Việt – Đức dừng đột ngột",
+                description: "Đóng học phí hơn 200 triệu mỗi năm, nhiều sinh viên sốc khi chương trình liên kết đào tạo bác sĩ giữa Đại học Y khoa Phạm Ngọc Thạch và đối tác ở Đức dừng đột ngột.",
+                date: "22/10/2025 17:16",
+                link: "https://vnexpress.net/hoang-mang-khi-chuong-trinh-bac-si-viet-duc-dung-dot-ngot-4954537.html",
+                image: "https://i1-vnexpress.vnecdn.net/2025/10/22/z7143680772745-a9ed72fb291731b-2409-8819-1761126406.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=drj1M7aaIfDiD_GNHYG7bQ"
+            }
+        ];
+
+        let currentView = 'grid';
+        let filteredNews = [...newsData];
+
+        function renderNews() {
+            const container = document.getElementById('newsContainer');
+            container.className = currentView === 'grid' ? 'news-grid' : 'news-list';
+            
+            if (filteredNews.length === 0) {
+                container.innerHTML = '<div class="no-results">😔 Không tìm thấy tin tức phù hợp</div>';
+                return;
+            }
+
+            container.innerHTML = filteredNews.map(news => `
+                <div class="news-card" onclick="window.open('${news.link}', '_blank')">
+                    <img src="${news.image}" alt="${news.title}" onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
+                    <div class="news-content">
+                        <h2 class="news-title">${news.title}</h2>
+                        <p class="news-description">${news.description}</p>
+                        <div class="news-meta">
+                            <span class="news-date">🕐 ${news.date}</span>
+                            <a href="${news.link}" class="read-more" target="_blank" onclick="event.stopPropagation()">Đọc thêm →</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderNews();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            filteredNews = newsData.filter(news => 
+                news.title.toLowerCase().includes(searchTerm) || 
+                news.description.toLowerCase().includes(searchTerm)
+            );
+            renderNews();
+        });
+
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleString('vi-VN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('updateTime').textContent = `Cập nhật: ${timeStr}`;
+        }
+
+        updateTime();
+        renderNews();
+    </script>
+</body>
+</html>
