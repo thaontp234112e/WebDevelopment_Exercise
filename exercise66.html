@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 66 - Phuong Thao</title>
+     <style>
+        table { border-collapse: collapse; }
+        td, th { padding: 8px 12px; }
+    </style>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td colspan="2" style="text-align:center; font-weight:bold;">Student Information</td>
+        </tr>
+        <tr>
+            <td>Student ID:</td>
+            <td id="student_id"></td>
+        </tr>
+        <tr>
+            <td>Student Name:</td>
+            <td id="student_name"></td>
+        </tr>
+        <tr>
+            <td>Birthday:</td>
+            <td id="birthday"></td>
+        </tr>
+        <tr>
+            <td>Gender:</td>
+            <td id="gender"></td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "../xml/exercise66.xml", true); // đường dẫn tới XML
+        xhr.send();
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var xmlDoc = xhr.responseXML;
+
+                // Lấy dữ liệu từ XML
+                let studentId = xmlDoc.getElementsByTagName("id")[0].childNodes[0].nodeValue;
+                let studentName = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+                let studentBirthday = xmlDoc.getElementsByTagName("birthday")[0].childNodes[0].nodeValue;
+                let studentGender = xmlDoc.getElementsByTagName("gender")[0].childNodes[0].nodeValue;
+
+                // Hiển thị lên bảng
+                document.getElementById("student_id").innerText = studentId;
+                document.getElementById("student_name").innerText = studentName;
+                document.getElementById("birthday").innerText = studentBirthday;
+                document.getElementById("gender").innerText = studentGender;
+
+                let rows = document.querySelectorAll("table tr"); // tất cả các <tr>
+                rows.forEach(function(row) {
+                    row.addEventListener("mouseover", function() {
+                        row.style.backgroundColor = "blue";
+                        row.style.color = "white";
+                    });
+                    row.addEventListener("mouseout", function() {
+                        row.style.backgroundColor = "white";
+                        row.style.color = "black";
+                    });
+                });
+
+            } else if (xhr.readyState == 4) {
+                console.log("Cannot load XML data. Status: " + xhr.status);
+            }
+        }
+    </script>
+</body>
+</html>
