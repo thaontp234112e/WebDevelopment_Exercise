@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <title>Exercise 55-Phuong Thao</title>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 350px;
+                margin: 20px auto;
+                font-family: Arial, sans-serif;
+            }
+            th {
+                background-color: #eaf4d3;
+                text-align: center;
+                font-weight: bold;
+                padding: 5px;
+            }
+            td {
+                border: 1px solid #888;
+                padding: 5px;
+            }
+            input {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            #result {
+                color: red;
+                font-weight: bold;
+            }
+            button {
+                border: 2px solid orange;
+                border-radius: 6px;
+                padding: 5px 12px;
+                margin: 3px;
+                cursor: pointer;
+                background-color: white;
+            }
+            button:hover {
+                background-color: #f9f5e3;
+            }
+        </style>
+
+        <script>
+            function solveQuadratic() {
+                let a = parseFloat(document.getElementById("a").value);
+                let b = parseFloat(document.getElementById("b").value);
+                let c = parseFloat(document.getElementById("c").value);
+                let result = "";
+
+                if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                    result = "Please enter valid numbers!";
+                } else if (a === 0) {
+                    // Trường hợp phương trình bậc nhất
+                    if (b === 0) {
+                        result = c === 0 ? "Infinite solutions" : "No solution";
+                    } else {
+                        let x = -c / b;
+                        result = "Linear equation: x = " + x;
+                    }
+                } else {
+                    // Tính delta
+                    let delta = b * b - 4 * a * c;
+                    if (delta < 0) {
+                        result = "No real roots";
+                    } else if (delta === 0) {
+                        let x = -b / (2 * a);
+                        result = "x1 = x2 = " + x;
+                    } else {
+                        let x1 = (-b - Math.sqrt(delta)) / (2 * a);
+                        let x2 = (-b + Math.sqrt(delta)) / (2 * a);
+                        result = "x1=" + x1 + " ; x2=" + x2;
+                    }
+                }
+
+                document.getElementById("result").innerHTML = result;
+            }
+
+            function clearForm() {
+                document.getElementById("a").value = "";
+                document.getElementById("b").value = "";
+                document.getElementById("c").value = "";
+                document.getElementById("result").innerHTML = "";
+            }
+        </script>
+    </head>
+
+    <body>
+        <form name="quadratic_equation">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">The quadratic equation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>a:</td>
+                        <td><input type="text" id="a" value="1" /></td>
+                    </tr>
+                    <tr>
+                        <td>b:</td>
+                        <td><input type="text" id="b" value="3" /></td>
+                    </tr>
+                    <tr>
+                        <td>c:</td>
+                        <td><input type="text" id="c" value="-4" /></td>
+                    </tr>
+                    <tr>
+                        <td>Result:</td>
+                        <td id="result"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button type="button" onclick="solveQuadratic()">Find solution</button>
+                            <button type="button" onclick="clearForm()">Clear</button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </body>
+</html>
