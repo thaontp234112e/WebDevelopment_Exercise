@@ -1,0 +1,130 @@
+<html>
+<head>
+    <title>Exercise 56 - Phuong Thao</title>
+    <style>
+        table {
+            border: 1px solid gray;
+            border-collapse: collapse;
+            margin: 20px auto;
+            width: 600px;
+            font-family: Arial, sans-serif;
+        }
+        th {
+            font-size: 20px;
+            text-align: center;
+            padding: 10px;
+        }
+        td {
+            border: 1px solid #ccc;
+            padding: 5px;
+            vertical-align: top;
+        }
+        textarea {
+            width: 98%;
+            height: 60px;
+        }
+        button {
+            width: 100%;
+            padding: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+    <script>
+        function getInput() {
+            return document.getElementById("input_data").value;
+        }
+
+        function showResult(text) {
+            document.getElementById("result").value = text;
+        }
+
+        function countUppercase() {
+            let str = getInput();
+            let count = (str.match(/[A-Z]/g) || []).length;
+            showResult("Number of uppercase letters: " + count);
+        }
+
+        function countLowercase() {
+            let str = getInput();
+            let count = (str.match(/[a-z]/g) || []).length;
+            showResult("Number of lowercase letters: " + count);
+        }
+
+        function toUppercase() {
+            showResult(getInput().toUpperCase());
+        }
+
+        function toLowercase() {
+            showResult(getInput().toLowerCase());
+        }
+
+        function wordPerLine() {
+            showResult(getInput().split(/\s+/).join("\n"));
+        }
+
+        function wordCount() {
+            let words = getInput().trim().split(/\s+/);
+            let count = words[0] === "" ? 0 : words.length;
+            showResult("Word count: " + count);
+        }
+
+        function vowelsConsonants() {
+            let str = getInput().toLowerCase();
+            let vowels = (str.match(/[aeiou]/g) || []).length;
+            let consonants = (str.match(/[bcdfghjklmnpqrstvwxyz]/g) || []).length;
+            showResult("Vowels: " + vowels + " ; Consonants: " + consonants);
+        }
+
+        function enterData() {
+            showResult(getInput());
+        }
+
+        function openW3C() {
+            window.open("https://www.w3schools.com/js/js_string_methods.asp", "_blank");
+        }
+    </script>
+</head>
+
+<body>
+    <form name="string_processing">
+        <table>
+            <tr>
+                <th colspan="2">Using String Processing functions</th>
+            </tr>
+            <tr>
+                <td>Input Data:</td>
+                <td>Result:</td>
+            </tr>
+            <tr>
+                <td><textarea id="input_data"></textarea></td>
+                <td><textarea id="result" readonly></textarea></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="enterData()">Enter Data</button></td>
+                <td><button type="button" onclick="countUppercase()">Count the number of uppercase characters</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="toUppercase()">Uppercase display</button></td>
+                <td><button type="button" onclick="wordPerLine()">Output one word per line</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="toLowercase()">Lowercase display</button></td>
+                <td><button type="button" onclick="wordCount()">Word count</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="countLowercase()">Count the number of lowercase characters</button></td>
+                <td><button type="button" onclick="vowelsConsonants()">Print vowels, consonants</button></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="button" onclick="openW3C()">W3C's String Processing Website</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
